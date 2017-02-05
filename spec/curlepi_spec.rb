@@ -1,11 +1,20 @@
 require "spec_helper"
 
 describe Curlepi do
-  it "has a version number" do
-    expect(Curlepi::VERSION).not_to be nil
+  describe '::from_string' do
+    it 'parses string as curl and returns instance of Curl' do
+      curl = Curlepi.from_string('curl https://jsonplaceholder.typicode.com/users')
+
+      expect(curl).to be_an_instance_of Curlepi::Curl
+
+    end
   end
 
-  it "does something useful" do
-    expect(false).to eq(true)
+  xdescribe '::from_file' do
+    it 'loads file as curl and returns instance of Curl' do
+      curl = Curlepi.from_file('./spec/fixtures/get_users.sh')
+
+      expect(curl).to be_an_instance_of Curlepi::Curl
+    end
   end
 end
