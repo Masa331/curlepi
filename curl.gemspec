@@ -1,17 +1,17 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'curlepi/version'
+require 'curl/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "curlepi"
-  spec.version       = Curlepi::VERSION
+  spec.name          = "curl"
+  spec.version       = Curl::VERSION
   spec.authors       = ["Premysl Donat"]
   spec.email         = ["pdonat@seznam.cz"]
 
   spec.summary       = "Testing and documenting APIs with cURL"
   spec.description   = "Testing and documenting APIs with cURL"
-  spec.homepage      = "https://github.com/Masa331/curlepi"
+  spec.homepage      = "https://github.com/Masa331/curl"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'

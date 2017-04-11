@@ -1,19 +1,18 @@
 require 'spec_helper'
 
-RSpec.describe Curlepi::Curl do
-  describe '#to_s' do
-    it 'outputs parsed curl back to string' do
-      curl = Curlepi::Curl.new('./spec/fixtures/get_users.sh')
+RSpec.describe Curl do
+  describe '::load' do
+    it 'loads curl from give filepath' do
+      curl = Curl.load('/home/masa331/pracovni/code/ruby/curlepi/spec/curls/get_users.sh')
 
       expect(curl.to_s).to eq "curl https://jsonplaceholder.typicode.com/users"
     end
-  end
 
-  describe '#url' do
-    it "returns curl's url" do
-      curl = Curlepi::Curl.new('./spec/fixtures/get_users.sh')
+    it 'parses -X option' do
+      curl = Curl.load('/home/masa331/pracovni/code/ruby/curlepi/spec/curls/post_users.sh')
 
-      expect(curl.url).to eq "https://jsonplaceholder.typicode.com/users"
+      expect(curl.to_s)
+        .to eq "curl https://jsonplaceholder.typicode.com/users\\\n-X POST"
     end
   end
 end
