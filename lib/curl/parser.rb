@@ -1,21 +1,40 @@
 class Curl
   class Parser
-    class Parser
+    class ParamMatcher
       def initialize(string, option)
         @string = string
         @option = option
       end
 
       def matches?
-        string.includes? option
+        @string.include? @option
       end
 
       def value
-        'hovno'
+        @string.scan(/(?<=\s#{@option}\ ).*(?=\s)/)
       end
 
-      def method_name
-        option.delete('-')
+      def option_name
+        @option
+      end
+    end
+
+    class OptionMatcher
+      def initialize(string, option)
+        @string = string
+        @option = option
+      end
+
+      def matches?
+        @string.include? @option
+      end
+
+      def value
+        [nil]
+      end
+
+      def option_name
+        @option
       end
     end
 
@@ -25,18 +44,22 @@ class Curl
       end
 
       def matches?
-        @string.include?('http://') || @string.include?('https://')
+        @string.include?('http://') ||
+          @string.include?('https://') ||
+          @string.include?('https://')
       end
 
-      def url
-        value = @string.slice(/https?:\/\/.*(?=\s)/)
-        value = value[0..-2] if value.end_with?('\\')
+      def value
+        value = @string.slice(/(https:\/\/|http:\/\/|localhost:).*(?=\s)/)
+        value = value[0..-2] if !value.nil? && value.end_with?('\\')
 
         value
       end
-    end
 
-    OPTIONS = []
+      def option_name
+        :url
+      end
+    end
 
     def initialize(raw_curl, curl)
       @raw_curl = raw_curl
@@ -44,24 +67,25 @@ class Curl
     end
 
     def go!
-      options.each do |option|
-        parser = Parser.new(@raw_curl, option)
+      url_matcher = UrlParser.new(@raw_curl)
+      @curl.send("#{url_matcher.option_name}=", url_matcher.value)
 
-        if parser.matches?
-          @curl.send(parser.method_name, parser.value)
+      matchers.each do |matcher|
+        if matcher.matches?
+          matcher.value.each do |value|
+            @curl.options << Curl::Option.new(matcher.option_name, value)
+          end
         end
-      end
-
-      url_parser = UrlParser.new(@raw_curl)
-      if url_parser.matches?
-        @curl.url = url_parser.url
       end
 
       @curl
     end
 
-    def options
-      OPTIONS
+    def matchers
+      [ OptionMatcher.new(@raw_curl, '-v'),
+        ParamMatcher.new(@raw_curl, '-X'),
+        ParamMatcher.new(@raw_curl, '--header')
+      ]
     end
   end
 end

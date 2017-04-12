@@ -2,8 +2,20 @@ require 'curl/version'
 require 'curl/parser'
 
 class Curl
+  class Option
+    attr_accessor :name, :value
 
-  attr_accessor :url, :x
+    def initialize(name, value)
+      @name = name
+      @value = value
+    end
+  end
+
+  attr_accessor :url, :options
+
+  def initialize
+    @options = []
+  end
 
   def self.load(filepath)
     raw_curl = File.read(filepath)
@@ -13,12 +25,10 @@ class Curl
 
   def to_s
     string = "curl #{url}"
-    string << "\n-X #{x}" unless x.nil?
+    @options.each do |option|
+      string << "\\\n#{option.name} #{option.value}"
+    end
 
     string
-  end
-
-  def url
-    @url
   end
 end
