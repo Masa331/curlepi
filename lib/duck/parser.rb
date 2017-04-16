@@ -1,4 +1,4 @@
-class Curl
+class Duck
   class Parser
     class ParamMatcher
       def initialize(string, option)
@@ -11,7 +11,15 @@ class Curl
       end
 
       def value
-        @string.scan(/(?<=\s#{@option}\ ).*(?=\s)/)
+        result = @string.scan(/(?<=\s#{@option}\ ).*(?=\s)/)
+
+        result.map do |res|
+          if !res.nil? && res.end_with?('\\')
+            res[0..-2] 
+          else
+            res
+          end
+        end
       end
 
       def option_name
@@ -73,7 +81,7 @@ class Curl
       matchers.each do |matcher|
         if matcher.matches?
           matcher.value.each do |value|
-            @curl.options << Curl::Option.new(matcher.option_name, value)
+            @curl.options << Duck::Option.new(matcher.option_name, value)
           end
         end
       end

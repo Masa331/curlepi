@@ -1,13 +1,17 @@
-require 'curl/version'
-require 'curl/parser'
+require_relative 'duck/version'
+require_relative 'duck/parser'
 
-class Curl
+class Duck
   class Option
     attr_accessor :name, :value
 
     def initialize(name, value)
       @name = name
       @value = value
+    end
+
+    def to_s
+      [name, value].compact.join(' ')
     end
   end
 
@@ -24,11 +28,12 @@ class Curl
   end
 
   def to_s
-    string = "curl #{url}"
-    @options.each do |option|
-      string << "\\\n#{option.name} #{option.value}"
+    curl = ["curl #{url}"]
+
+    @options.sort_by { |o| o.name.length }.each do |option|
+      curl << "  #{option}"
     end
 
-    string
+    curl.join("\\\n")
   end
 end
