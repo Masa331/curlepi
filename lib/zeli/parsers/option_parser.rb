@@ -1,4 +1,4 @@
-class Duck
+class Zeli
   class Parser
     class OptionParser
       def initialize(option)
@@ -10,7 +10,7 @@ class Duck
         @curl = curl
 
         if matches?
-          @curl.options << Duck::Option.new(@option, nil)
+          @curl.options << Zeli::Option.new(@option, nil)
         end
 
         @curl

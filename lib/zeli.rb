@@ -1,8 +1,8 @@
-require_relative 'duck/version'
-require_relative 'duck/parser'
-require_relative 'duck/rspec_extension'
+require_relative 'zeli/version'
+require_relative 'zeli/parser'
+require_relative 'zeli/rspec_extension'
 
-class Duck
+class Zeli
   class Option
     attr_accessor :name, :value
 
@@ -30,7 +30,15 @@ class Duck
   end
 
   def request_type
-    :get
+    return :get if options.empty?
+
+    option = options.find { |o| o.name == '-X' }
+
+    if !option.nil?
+      option.value.downcase.to_sym
+    else
+      :get
+    end
   end
 
   def to_s

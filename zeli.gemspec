@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'duck/version'
+require 'zeli/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "curlduck"
-  spec.version       = Duck::VERSION
+  spec.name          = "zeli"
+  spec.version       = Zeli::VERSION
   spec.authors       = ["Premysl Donat"]
   spec.email         = ["pdonat@seznam.cz"]
 

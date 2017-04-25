@@ -4,7 +4,7 @@ require_relative 'parsers/header_parser'
 require_relative 'parsers/option_parser'
 require_relative 'parsers/url_parser'
 
-class Duck
+class Zeli
   class Parser
     def initialize(raw_curl, curl)
       @raw_curl = raw_curl

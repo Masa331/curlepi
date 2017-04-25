@@ -1,4 +1,4 @@
-class Duck
+class Zeli
   class Parser
     class UrlParser
       def parse!(raw_curl, curl)

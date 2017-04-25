@@ -1,6 +1,6 @@
 require_relative 'lib/duck'
 
-curl = Duck.load('./spec/curls/get_users.sh')
+curl = Zeli.load('./spec/curls/get_users.sh')
 
 response = `#{curl}`
 
