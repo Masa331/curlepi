@@ -1,5 +1,6 @@
 require_relative 'duck/version'
 require_relative 'duck/parser'
+require_relative 'duck/rspec_extension'
 
 class Duck
   class Option
@@ -15,10 +16,11 @@ class Duck
     end
   end
 
-  attr_accessor :url, :options
+  attr_accessor :url, :options, :headers
 
   def initialize
     @options = []
+    @headers = {}
   end
 
   def self.load(filepath)
@@ -27,11 +29,19 @@ class Duck
     parser.go!
   end
 
+  def request_type
+    :get
+  end
+
   def to_s
     curl = ["curl #{url}"]
 
-    @options.sort_by { |o| o.name.length }.each do |option|
+    @options.each do |option|
       curl << "  #{option}"
+    end
+
+    @headers.each do |k, v|
+      curl << "  --header \"#{[k, v].join(': ')}\""
     end
 
     curl.join("\\\n")
