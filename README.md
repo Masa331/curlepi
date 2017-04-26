@@ -11,7 +11,10 @@ Content:
 I got a friend we do an app together rails on back react native on front they talk through rest api i document endpoints with curl so he can try them easily before writing react but i often forget to update them so they dont work anymore even when my api tests work. :(
 
 ## Installation & How To
+TODO
 
 ## Contributing
+This is not finished nor perfect. I welcome every issue and pull request. If you have some curl Zeli can't parse our output please post them in the issue also.
 
 ## License
+MIT
