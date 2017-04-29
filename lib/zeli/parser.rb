@@ -23,6 +23,7 @@ class Zeli
       [ UrlParser.new,
         OptionParser.new('-v'),
         ParamParser.new('-X'),
+        ParamParser.new('--data'),
         HeaderParser.new('--header')
       ]
     end

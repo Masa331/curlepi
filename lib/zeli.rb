@@ -41,6 +41,14 @@ class Zeli
     end
   end
 
+  def data
+    option = options.find { |o| o.name == '--data' }
+
+    if !option.nil?
+      option.value
+    end
+  end
+
   def to_s
     curl = ["curl #{url}"]
 

@@ -44,6 +44,17 @@ RSpec.describe Zeli do
         "  --header \"X-Auth-Email: pdonat@seznam.cz\"\\\n"\
         "  --header \"X-Auth-Token: JAaVvDYHCpig0L4PhGjhPx5oHwMisK_gt1SK3g5tJyLUHrp5kycbWpDf2U4X5bY6Ul4\"")
     end
+
+    it 'parses --data param' do
+      curl_path = './spec/curls/create_document.sh'
+      curl = Zeli.load curl_path
+      plain_curl = File.read curl_path
+
+      expect(curl.to_s).to eq(
+        "curl http://localhost:3000/api/v1/documents.json\\\n"\
+        "  -v\\\n"\
+        "  --data \"{\\\"description\\\":\\\"data\\\"}\"")
+    end
   end
 
   describe '#request_type' do
@@ -57,6 +68,20 @@ RSpec.describe Zeli do
       curl = Zeli.load './spec/curls/post_users.sh'
 
       expect(curl.request_type).to eq :post
+    end
+  end
+
+  describe '#data' do
+    it 'returns nil if --data params is missing' do
+      curl = Zeli.load './spec/curls/get_users.sh'
+
+      expect(curl.data).to eq nil
+    end
+
+    it 'returns data if --data params is present' do
+      curl = Zeli.load './spec/curls/create_document.sh'
+
+      expect(curl.data).to eq "\"{\\\"description\\\":\\\"data\\\"}\""
     end
   end
 end
